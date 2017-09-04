@@ -7,7 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NestviewholderCache<T> {
-    private static final int MAX_SIZE = 7;
+    private int cacheSize;
+    private int initSize;
 
     private Context context;
     private SparseArray<NestitemviewFactory<T>> factorySparseArray;
@@ -15,6 +16,12 @@ public class NestviewholderCache<T> {
     private LinkedList<Nestitemview<T>> bindingViews;
 
     public NestviewholderCache(Context context) {
+        this(context, 7, 3);
+    }
+
+    public NestviewholderCache(Context context, int cacheSize, int initSize) {
+        this.cacheSize = cacheSize;
+        this.initSize = initSize;
         this.context = context;
         this.cache = new SparseArray<>();
         this.factorySparseArray = new SparseArray<>();
@@ -23,7 +30,11 @@ public class NestviewholderCache<T> {
 
     public void registerFactory(int type, NestitemviewFactory<T> factory) {
         factorySparseArray.put(type, factory);
-        cache.put(type, new LinkedList<Nestitemview<T>>());
+        LinkedList<Nestitemview<T>> linkedList = new LinkedList<>();
+        for (int i = 0; i < initSize; i++) {
+            linkedList.add(factory.create(context));
+        }
+        cache.put(type, linkedList);
     }
 
     public Nestitemview<T> getItemView(int type, int position) {
@@ -60,7 +71,7 @@ public class NestviewholderCache<T> {
             lastItem = bindingViews.pollFirst();
         }
         List<Nestitemview<T>> list = cache.get(lastItem.getType());
-        if (list.size() < MAX_SIZE) {
+        if (list.size() < cacheSize) {
             cache.get(lastItem.getType()).add(lastItem);
         }
     }
