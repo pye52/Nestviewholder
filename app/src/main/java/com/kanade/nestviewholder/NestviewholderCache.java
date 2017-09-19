@@ -37,7 +37,7 @@ public class NestviewholderCache<T> {
         cache.put(type, linkedList);
     }
 
-    public Nestitemview<T> addItemView(int type, Nestviewholder<T> holder) {
+    public Nestitemview<T> getItemView(int type, Nestviewholder<T> holder) {
         LinkedList<Nestitemview<T>> list = cache.get(type);
         Nestitemview<T> nestitemview;
         if (list.isEmpty()) {
