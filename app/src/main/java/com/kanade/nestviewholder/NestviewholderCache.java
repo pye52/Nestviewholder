@@ -37,7 +37,7 @@ public class NestviewholderCache<T> {
         cache.put(type, linkedList);
     }
 
-    public Nestitemview<T> getItemView(int type, int position) {
+    public Nestitemview<T> addItemView(int type, Nestviewholder<T> holder) {
         LinkedList<Nestitemview<T>> list = cache.get(type);
         Nestitemview<T> nestitemview;
         if (list.isEmpty()) {
@@ -53,12 +53,13 @@ public class NestviewholderCache<T> {
                 nestitemview = factory.create(context);
             }
         }
-        bindingViews.put(position, nestitemview);
+        bindingViews.put(holder.getAdapterPosition(), nestitemview);
         return nestitemview;
     }
 
-    public void detachView(int position) {
-        Nestitemview<T> nestitemview = bindingViews.get(position);
+    public void detachView(Nestviewholder<T> holder) {
+        holder.removeChild();
+        Nestitemview<T> nestitemview = bindingViews.get(holder.getAdapterPosition());
         if (nestitemview != null) {
             List<Nestitemview<T>> list = cache.get(nestitemview.getType());
             if (list.size() < cacheSize) {
