@@ -5,14 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.kanade.nestviewholder.Nestviewholder;
 import com.kanade.nestviewholder.NestviewholderCache;
 import com.kanade.nestviewholder.Nestitemview;
-import com.kanade.nestviewholder.INestviewholder;
 
 import java.util.List;
 
@@ -50,8 +49,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.BaseView
         MessageItem item = list.get(position);
         holder.setView(item);
         Nestitemview<MessageItem> itemView = cache.getItemView(item.getItemType(), position);
-        itemView.dispatch(holder.itemView, item);
-        holder.addChild(itemView.getItemView());
+        holder.addChild(itemView, item);
     }
 
     @Override
@@ -76,28 +74,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.BaseView
         return list.size();
     }
 
-    public class BaseViewHolder extends RecyclerView.ViewHolder implements INestviewholder {
-        private FrameLayout frameLayout;
-
+    public class BaseViewHolder extends Nestviewholder<MessageItem> {
         public BaseViewHolder(View itemView) {
             super(itemView);
-            frameLayout = (FrameLayout) itemView.findViewById(R.id.message_fl);
+            root = itemView.findViewById(R.id.message_fl);
         }
 
         public void setView(MessageItem item) {
 
-        }
-
-        @Override
-        public void addChild(View view) {
-            frameLayout.addView(view);
-        }
-
-        @Override
-        public View removeChild() {
-            View view = frameLayout.getChildAt(0);
-            frameLayout.removeViewAt(0);
-            return view;
         }
     }
 
@@ -108,9 +92,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.BaseView
 
         public MessageSendViewHolder(View itemView) {
             super(itemView);
-            time = (TextView) itemView.findViewById(R.id.message_time);
-            avatar = (ImageView) itemView.findViewById(R.id.avatar);
-            state = (ImageView) itemView.findViewById(R.id.message_state);
+            time = itemView.findViewById(R.id.message_time);
+            avatar = itemView.findViewById(R.id.avatar);
+            state = itemView.findViewById(R.id.message_state);
         }
 
         @Override
@@ -127,9 +111,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.BaseView
 
         public MessageReceiveViewHolder(View itemView) {
             super(itemView);
-            time = (TextView) itemView.findViewById(R.id.message_time);
-            avatar = (ImageView) itemView.findViewById(R.id.avatar);
-            sendername = (TextView) itemView.findViewById(R.id.sendername);
+            time = itemView.findViewById(R.id.message_time);
+            avatar = itemView.findViewById(R.id.avatar);
+            sendername = itemView.findViewById(R.id.sendername);
         }
 
         @Override

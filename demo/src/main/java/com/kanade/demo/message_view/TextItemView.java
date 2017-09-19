@@ -22,11 +22,6 @@ public class TextItemView extends Nestitemview<MessageItem> {
     }
 
     @Override
-    public void release() {
-        textView.setText("");
-    }
-
-    @Override
     public int getType() {
         return MessageType.TEXT;
     }

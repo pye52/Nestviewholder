@@ -25,9 +25,10 @@ public class MainActivity extends AppCompatActivity {
         cache.registerFactory(MessageType.IMG, new ImageItemViewFactory());
 
         List<MessageItem> list = MessageBuilder.createMessageList();
-        recyclerView = (RecyclerView) findViewById(R.id.rv);
+        recyclerView = findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         MessageAdapter adapter = new MessageAdapter(this, list, cache);
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(list.size() - 1);
     }
 }

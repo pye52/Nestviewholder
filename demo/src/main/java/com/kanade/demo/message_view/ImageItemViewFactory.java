@@ -15,7 +15,7 @@ import com.kanade.nestviewholder.NestitemviewFactory;
 public class ImageItemViewFactory implements NestitemviewFactory<MessageItem> {
     @Override
     public Nestitemview<MessageItem> create(Context context) {
-        View view = new ImageView(context);
+        ImageView view = new ImageView(context);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         view.setLayoutParams(params);
