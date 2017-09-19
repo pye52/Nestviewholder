@@ -25,4 +25,9 @@ public class ImageItemView extends Nestitemview<MessageItem> {
     public void dispatch(View itemView, MessageItem item) {
         imageView.setImageResource(R.drawable.img);
     }
+
+    @Override
+    public void release() {
+        imageView.setImageResource(0);
+    }
 }

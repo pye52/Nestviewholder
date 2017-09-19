@@ -14,6 +14,8 @@ public abstract class Nestitemview<T> {
 
     public abstract void dispatch(View root, T item);
 
+    public abstract void release();
+
     public final View getItemView() {
         return itemView;
     }

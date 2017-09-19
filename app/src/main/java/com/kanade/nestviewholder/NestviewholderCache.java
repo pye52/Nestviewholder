@@ -70,6 +70,7 @@ public class NestviewholderCache<T> {
         } else {
             lastItem = bindingViews.pollFirst();
         }
+        lastItem.release();
         List<Nestitemview<T>> list = cache.get(lastItem.getType());
         if (list.size() < cacheSize) {
             cache.get(lastItem.getType()).add(lastItem);
