@@ -48,7 +48,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.BaseView
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         MessageItem item = list.get(position);
         holder.setView(item);
-        Nestitemview<MessageItem> itemView = cache.addItemView(item.getItemType(), holder);
+        Nestitemview<MessageItem> itemView = cache.getItemView(item.getItemType(), holder);
         holder.addChild(itemView, item);
     }
 

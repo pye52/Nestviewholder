@@ -13,7 +13,6 @@ public class NestviewholderCache<T> {
     private Context context;
     private SparseArray<NestitemviewFactory<T>> factorySparseArray;
     private SparseArray<LinkedList<Nestitemview<T>>> cache;
-    private SparseArray<Nestitemview<T>> bindingViews;
 
     public NestviewholderCache(Context context) {
         this(context, 7, 3);
@@ -25,7 +24,6 @@ public class NestviewholderCache<T> {
         this.context = context;
         this.cache = new SparseArray<>();
         this.factorySparseArray = new SparseArray<>();
-        this.bindingViews = new SparseArray<>();
     }
 
     public void registerFactory(int type, NestitemviewFactory<T> factory) {
@@ -53,13 +51,11 @@ public class NestviewholderCache<T> {
                 nestitemview = factory.create(context);
             }
         }
-        bindingViews.put(holder.getAdapterPosition(), nestitemview);
         return nestitemview;
     }
 
     public void detachView(Nestviewholder<T> holder) {
-        holder.removeChild();
-        Nestitemview<T> nestitemview = bindingViews.get(holder.getAdapterPosition());
+        Nestitemview<T> nestitemview = holder.removeChild();
         if (nestitemview != null) {
             List<Nestitemview<T>> list = cache.get(nestitemview.getType());
             if (list.size() < cacheSize) {
