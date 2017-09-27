@@ -14,9 +14,13 @@ MultiType是一个很好的多类型列表视图库，它在实现一些复杂�
 
 ![发送的信息布局](https://github.com/pye52/Nestviewholder/blob/master/img/send.png?raw=true)
 
+![其余布局1](https://github.com/pye52/Nestviewholder/blob/master/img/other1.png?raw=true)
+
+![其余布局2](https://github.com/pye52/Nestviewholder/blob/master/img/other2.png?raw=true)
+
 如上，无论是发送出去的消息还是接收的消息，基本可以划分为：头像、名字、内容区。每一条消息的头像和名字(微信发送者是没有名字的)是固定的。至于采取发送的还是接收的信息布局，取决于消息体的发送者id是否与登录用户id一致(在getItemViewType作判断)，而内容区则根据消息的类型变化。由于用户发送的信息(向左布局)还需要携带发送状态，因此只要实现一左一右的两个固定外层布局即可(xml示例参考上面给出的multitype链接)。
 
-对于内容区(以下将内容区的view称为itemview，即framelayout所添加的布局)，若不考虑缓存的话，简单利用工厂模式，在onBindViewHolder的时候根据viewtype去生成对应的itemview并添加到framelayout上即可，如此其性能表现已经比为每一种viewtype创建一个布局要好得多了，而且对头像等固定要素只需要在onBindViewHolder处设置一遍。
+对于内容区(以下将内容区的view称为itemview，即framelayout所添加的布局)，若不考虑缓存的话，简单利用工厂模式，在onBindViewHolder的时候根据消息体类型去生成对应的itemview并添加到framelayout上即可，如此其性能表现已经比为每一种viewtype创建一个布局要好得多了，而且对头像等固定要素只需要在onBindViewHolder处设置一遍。
 
 当然我们不能止步于此，而是要实现像viewholder一样的缓存已创建好的itemview并复用，需要解决以下几个问题：
 
@@ -49,7 +53,7 @@ public void onViewRecycled(BaseViewHolder holder) {
 
 ![发送的信息布局](https://github.com/pye52/Nestviewholder/blob/master/img/nestviewholder.png?raw=true)
 
-这其实是非常简单的东西…但实际使用的时候发现了一个问题…当用户滑动速度非常快的时候，会出现回收viewholder时未执行removeview就被再次显示到屏幕上了，这将会导致
+这其实是非常简单的东西…但实际使用的时候发现了一个问题…当用户滑动速度非常快的时候，会出现viewholder未执行removeview就被再次显示到屏幕上了，这将会导致
 
 1. itemview被添加到两个framelayout上导致出错
 2. 某个framelayout添加了两个itemview导致重叠
